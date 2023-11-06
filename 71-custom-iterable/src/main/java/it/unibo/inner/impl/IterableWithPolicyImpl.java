@@ -1,7 +1,8 @@
 package it.unibo.inner.impl;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -16,7 +17,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return new Inner();
     }
 
@@ -26,22 +27,27 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
         throw new UnsupportedOperationException("Unimplemented method 'setIterationPolicy'");
     }
 
+    public String toString() {
+        return Arrays.toString(elements);
+    }
+
     private class Inner implements Iterator<T> {
 
         private int current;
 
         @Override
         public boolean hasNext() {
-            return this.current < Objects.requireNonNull(elements).length - 1 ? true : false;
+            return this.current < Objects.requireNonNull(elements).length ? true : false;
         }
 
         @Override
         public T next() {
             if (this.hasNext()) {
+                final T element = elements[this.current];
                 this.current++;
-                return elements[this.current];
+                return element;
             }
-            return null;
+            throw new NoSuchElementException();
         }
         
     } 
