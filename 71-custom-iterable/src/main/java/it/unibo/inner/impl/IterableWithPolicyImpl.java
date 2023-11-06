@@ -32,7 +32,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
 
         @Override
         public boolean hasNext() {
-            return this.current < Objects.requireNonNull(elements).length ? true : false;
+            return this.current < Objects.requireNonNull(elements).length - 1 ? true : false;
         }
 
         @Override
